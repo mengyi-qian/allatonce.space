@@ -1,0 +1,59 @@
+@media only screen and (max-width: 840px) {
+  body {
+    overflow: scroll;
+    overflow-x: hidden;
+    background-color: black;
+  }
+  
+  div#video-container {
+    position: static;
+    width: calc(100vw - 40px);
+    height: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: start;
+    align-content: flex-start;
+    align-items: center;
+    margin: 20px;
+    top: 0;
+    left: 0;
+    overflow: scroll;
+  }
+  div#video-container iframe {
+    width: 100%;
+    height: calc((100vw - 40px) * 9 / 16);
+    margin-bottom: 20px;
+    z-index: 1;
+  }
+  
+  nav {
+    width: 300px;
+  }
+  marquee.mobile-caption {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+  }
+  #caption,
+  nav.cameras,
+  nav.messages,
+  a#about {
+    display: none;
+  }
+  #about-container {
+    position: static;
+    height: auto;
+    display: block;
+  }
+  #about-container p,
+  #about-container ul{
+    padding: 10px 20px;
+  }
+  #about-container p#credit，
+  #about-container p#note {
+    font-size: 0.6em;
+  }
+  #about-container p#note {
+    padding-bottom: 20px;
+  }
+}

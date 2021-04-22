@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ALL AT ONCE - YALE GD'21</title>
+    <link id="favicon" rel="icon" href="https://cdn.glitch.com/1e90be27-23ce-48d3-aca1-2acbffb697eb%2Ffavicon.png?v=1619060243566" type="image/png">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/responsive.css">
+    <link rel="stylesheet" href="/mobile.css">
+<!--     <script src="https://www.youtube.com/iframe_api"></script> -->
+    <script src="/script.js" defer></script>
+    <script src="https://all-at-once.glitch.me/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io('https://all-at-once.glitch.me/')
+      
+      window.onload = async () => {
+        // initialize iframe width & height
+        let vw = window.innerWidth
+        let vh = window.innerHeight
+        let w = vw
+        let h = vh
+        function getIframeSize() {
+          vw = window.innerWidth
+          vh = window.innerHeight
+          if ( vh > vw * 9 / 16 ) {
+            h = vh
+            w = vh * 16 / 9
+          } else {
+            w = vw
+            h = vw * 9 / 16
+          }
+        }
+        getIframeSize()
+        
+        // resize the iframe on window resized or on camera switched
+        function iframeResize() {
+          vw = window.innerWidth
+          vh = window.innerHeight
+          if ( vh > vw * 9 / 16 ) {
+            console.log("narrow")
+            h = vh
+            w = vh * 16 / 9
+            let iframe = document.querySelector('#iframe-container')
+            if (iframe !== null) {
+              iframe.style.width = w + "px"
+              iframe.style.height = h + "px"
+              iframe.style.top = 0
+            }
+          } else {
+            console.log("wide")
+            w = vw
+            h = vw * 9 / 16
+            let iframe = document.querySelector('#iframe-container')
+            if (iframe !== null) {
+              iframe.style.width = w + "px"
+              iframe.style.height = h + "px"
+              iframe.style.left = 0
+            }
+          }
+        }
+        // window.onresize = iframeResize
+        
+        
+        // youtube livestream embeded links
+        const videoSources = [
+          "https://www.youtube.com/embed/live_stream?channel=UCHVaqUStiwREmM1jzX8iFiw", // cam 01
+          "https://www.youtube.com/embed/live_stream?channel=UCqpl6x4kNKU1UYUK9_TJslw", // cam 02
+          "https://www.youtube.com/embed/live_stream?channel=UCTSg1ZoG2TIl5Skoca0S6tQ", // cam 03
+          "https://www.youtube.com/embed/live_stream?channel=UCl0UB1O7Ea90Eyk6rbUkE5A", // cam 04
+          "https://www.youtube.com/embed/live_stream?channel=UCbqBpuqlgm0NmQi4iyIZREg", // cam 05
+          "https://www.youtube.com/embed/live_stream?channel=UC58BB2YXu28MiC4Iv6cVT1g", // cam 06
+          "https://www.youtube.com/embed/live_stream?channel=UCpp0ClyiNMe-Uvd9z8tXntg", // cam 07
+          "https://www.youtube.com/embed/live_stream?channel=UC0s0U-acp0sNY_CNfIHqkHQ" // cam 08
+        ]
+        
+        // video iframe template
+        const videoTemplate = (videoId, source) => {
+          let videoTemplate = `
+            <iframe id=${videoId}
+                  src="${source}&autoplay=1&controls=0&mute=1&showinfo=0&enablejsapi=1&fs=0&loop=1&modestbranding=1&playsinline=1&color=white&rel=0" 
+                  frameborder="0" scrolling="no"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+            </iframe> 
+          `
+          return videoTemplate
+        }
+        
+        // desktop: fullscreen video iframe template
+        const resizedTemplate = (videoId, source, w, h) => {
+          let resizedTemplate = `
+            <div id="iframe-container" style="width:${w}px;height:${h}px;">
+              ${videoTemplate(videoId,source)}
+            </div>
+          `
+          return resizedTemplate
+        }
+        
+        // mobile: list video iframe template & caption marquee
+        const marqueeTemplate = (videoId, source) => {
+          let caption = "ALL AT ONCE"
+          let marqueeTemplate = `
+            <marquee class="mobile-caption" scrollamount="2" scrolldelay = "0">${caption}</marquee>
+            ${videoTemplate(videoId,source)}
+          `
+          return marqueeTemplate
+        }
+        
+        
+        // get all the navs and video container
+        let cameraNavs = document.querySelectorAll('input[type="radio"]')
+        let videoContainer = document.querySelector('#video-container')
+
+        // mobile:
+        if ( vw <= 840 ) {
+          let videoTemplateMobile = ''
+          for ( let i = 0; i < cameraNavs.length; i++ ) {
+            let videoId = "cam_0" + (i + 1)
+            videoTemplateMobile += marqueeTemplate(videoId,videoSources[i])
+          }
+          videoContainer.innerHTML = videoTemplateMobile
+          
+          // set marquee captions
+          socket.on('set caption', (captions) => {
+            let videos = document.querySelectorAll('#video-container iframe')
+            for (let video of videos) {
+              let index = video.id.slice(-1) - 1
+              let caption = "No work is streaming in this camera"
+              if ( captions[index] !== "" ) {
+                caption = "Now streaming: " + captions[index]
+              }
+              let marquee = video.previousElementSibling
+              marquee.innerHTML = "ALL AT ONCE: " + caption
+              video.setAttribute("alt", caption)
+            }
+          })
+        }
+        // desktop:
+        else {
+          // get a random camera
+          let n = Math.floor(Math.random() * cameraNavs.length)
+          cameraNavs[n].checked = true
+          let cameraNo = cameraNavs[n].value
+          videoContainer.innerHTML = resizedTemplate("activeCamera", videoSources[n], w, h)
+
+          // when switching camreas
+          cameraNavs.forEach((cameraNav) => {
+            cameraNav.addEventListener('change',() => {
+              if (cameraNav.checked) {
+                cameraNo = cameraNav.value
+                n = cameraNo.slice(-1) - 1
+                socket.emit('camera switch', cameraNo)
+                videoContainer.innerHTML = resizedTemplate("activeCamera", videoSources[n], w, h)
+                iframeResize()
+              }
+            })
+          })
+          window.onresize = iframeResize
+
+          // set captions and alt text
+          socket.on('set caption', (captions) => {
+            let caption = "No work is streaming in this camera"
+            if ( captions[n] !== "" ) {
+              caption = "Now streaming: " + captions[n]
+            }
+            document.querySelector('#caption').setAttribute("title", caption)
+            document.querySelector('#caption').setAttribute("alt", caption)
+            
+          })
+          
+          // set currently streaming messages
+          socket.on('update streaming message', (live) => {          
+            let output = 'ALL AT ONCE: '
+            if ( live.length > 0 ) {
+              for (let item of live) {
+                output += item.message
+              }
+            } else {
+              output += 'No work is streaming currently. Please come back later.'
+            }
+            document.querySelector('#message-list').innerHTML = output          
+          })
+        }
+
+      }
+    </script>
+  </head>  
+  <body>   
+    <div id="video-container"></div>
+
+    <img src="/" id="caption">
+    
+    <nav class="cameras">
+      <input type="radio" id="cam_01_nav" name="camera" value="cam_01">
+      <label for="cam_01_nav"> cam_01 </label>
+      <input type="radio" id="cam_02_nav" name="camera" value="cam_02">
+      <label for="cam_02_nav"> cam_02 </label>
+      <input type="radio" id="cam_03_nav" name="camera" value="cam_03">
+      <label for="cam_03_nav"> cam_03 </label>
+      <input type="radio" id="cam_04_nav" name="camera" value="cam_04">
+      <label for="cam_04_nav"> cam_04 </label>
+      <input type="radio" id="cam_05_nav" name="camera" value="cam_05">
+      <label for="cam_05_nav"> cam_05 </label>
+      <input type="radio" id="cam_06_nav" name="camera" value="cam_06">
+      <label for="cam_06_nav"> cam_06 </label>
+      <input type="radio" id="cam_07_nav" name="camera" value="cam_07">
+      <label for="cam_07_nav"> cam_07 </label>
+      <input type="radio" id="cam_08_nav" name="camera" value="cam_08">
+      <label for="cam_08_nav"> cam_08 </label>
+    </nav>
+    <nav class="messages">
+      <marquee direction="left" behavior="scroll" scrollamount="4" scrolldelay = "0">
+        <ul id="message-list"></ul>
+      </marquee>
+    </nav>
+    
+    
+    <a id="about">About</a>
+    <div id="about-container">
+      <p>ALL AT ONCE<br>Yale School of Art<br>Graphic Design MFA 2021 Thesis Show</p>
+      <p>On view April 22–28<br>24-hour livestreams here at allatonce.space &<br> Green Hall Gallery during regular hours*</p>
+      <p>All at once—looking back, tripping forward, standing still. All at once—plugged in, displayed, replayed, looped. All at once—planes, edges corners. All at once—outwards, inwards, downwards, backwards. All at once—far away, close by, in motion. All at once—displaced, misplaced, replaced. All at once—everything, nothing, fleeting. All at once.
+</p>
+      <p><i>All at Once</i> brings together the work of this year’s graphic design MFA graduating class through a unique merging of the physical and the virtual of our current environment. From April 22 to April 28, a continuously evolving live feed of work will be broadcasted 24/7 at allatonce.space—while the physical show will be on view in person at Green Hall Gallery during regular hours.*</p>
+      <p></p>
+      <p>2021 Graduating Class:</p>
+      <ul>
+        <li>Herdimas Anggara</li>
+        <li>Milo Bonacci</li>
+        <li>Bianca Ibarlucea</li>
+        <li>Furqan Jawed</li>
+        <li>Harin Jung</li>
+        <li>Jun Jung</li>
+        <li>Minhwan Kim</li>
+        <li>Nick Massarelli</li>
+        <li>Anezka Minarikova</li>
+        <li>Luiza Dale</li>
+        <li>Ana Lobo</li>
+        <li>Mengyi Qian</li>
+        <li>Anna Sagström</li>
+        <li>Mianwei Wang</li>
+      </ul>
+      <p id="credit">
+        Exhibition Design: Milo Bonacci, Bianca Ibarlucea, Furqan Jawed, Jun Jung, Minhwan Kim, Mengyi Qian
+        <br>
+        Special thanks to Yeju Choi, Sarah Stevens-Morling, Edgar Serrano, and Erin Sparling, for all of your help and support in making this exhibition possible.
+      </p>
+      <p id="note">
+        *The gallery is only open to current members of the SoA community because of Yale University's <a href="https://covid19.yale.edu/yale-statistics">orange covid alert status</a>.
+      </p>
+    </div>
+    
+  </body>
+</html>
