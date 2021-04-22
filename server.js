@@ -12,7 +12,7 @@ app.use(express.static("public"))
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/views/index.html')
 })
-app.get('/panel', function(req, res) {
+app.get('/atrium', function(req, res) {
   res.sendFile(__dirname + '/views/backend.html')
 })
 app.get('/logs', function(req, res) {
