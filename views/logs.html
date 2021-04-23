@@ -33,7 +33,7 @@
         socket.on('add log', (log)=>{
           let output = `
             <tr>
-              <td>${convert(log.timestamp)}</td>
+              <td clss="time">${convert(log.timestamp)}</td>
               <td>${log.description}</td>
             </tr>
           `
@@ -59,11 +59,6 @@
   </head>
   <body>
     <div id="blink">&#10074;</div>
-    <table>
-      <tr>
-        <td class="time">2021/03/23 16:32:20</td>
-        <td>The streaming of Poster for a talk by Elmgreen and Dragset by Minhwan in cam_02 just started</td>
-      </tr>
-    </table>
+    <table></table>
   </body>
 </html>
