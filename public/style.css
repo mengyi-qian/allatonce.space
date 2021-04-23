@@ -128,14 +128,14 @@ a#about {
   width: 100vw;
   height: calc(100vh - 50px);
   height: calc(var(--vh, 1vh) * 100 - 50px); /* mobile */
-  display: none;
+/*   display: none; */
   overflow-y: scroll;
   overflow-x: hidden;
   z-index: 99;
 }
 
 #about-container::-webkit-scrollbar {
-display: none;
+  display: none;
 }
 
 #about-container p,
@@ -152,4 +152,16 @@ display: none;
 
 #about-container p#credit {
   padding-bottom: 0px;
+}
+
+#about-container #close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+::selection {
+  background-color: black;
 }
