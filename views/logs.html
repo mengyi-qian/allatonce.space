@@ -33,7 +33,7 @@
         socket.on('add log', (log)=>{
           let output = `
             <tr>
-              <td clss="time">${convert(log.timestamp)}</td>
+              <td class="time">${convert(log.timestamp)}</td>
               <td>${log.description}</td>
             </tr>
           `
@@ -46,7 +46,7 @@
           for (let log of logs) {
             output += `
               <tr>
-                <td clss="time">${convert(log.timestamp)}</td>
+                <td class="time">${convert(log.timestamp)}</td>
                 <td>${log.description}</td>
               </tr>
             `
