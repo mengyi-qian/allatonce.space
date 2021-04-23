@@ -9,7 +9,9 @@ body {
   color: white;
   line-height: 1.2em;
 }
-td {
+td.time {
+  white-space: nowrap;
+  vertical-align: top;
   padding-right: 16px;
 }
 #blink {
