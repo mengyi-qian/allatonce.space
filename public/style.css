@@ -134,6 +134,10 @@ a#about {
   z-index: 99;
 }
 
+#about-container::-webkit-scrollbar {
+display: none;
+}
+
 #about-container p,
 #about-container ul {
   color: white;
