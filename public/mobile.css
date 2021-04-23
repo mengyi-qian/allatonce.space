@@ -1,6 +1,6 @@
 @media only screen and (max-width: 840px) {
   body {
-    overflow: scroll;
+    overflow-y: scroll;
     overflow-x: hidden;
     background-color: black;
   }

@@ -6,7 +6,8 @@ body, * {
   font-family: 'Arial';
 }
 body {
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: hidden;
   background-color: black;
   color: white;
 }
@@ -128,7 +129,8 @@ a#about {
   height: calc(100vh - 50px);
   height: calc(var(--vh, 1vh) * 100 - 50px); /* mobile */
   display: none;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   z-index: 99;
 }
 
