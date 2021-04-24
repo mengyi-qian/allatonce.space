@@ -8,14 +8,13 @@ function show(element) {
 // toggle about button
 let aboutButton = document.querySelector('#about')
 let aboutContainer = document.querySelector('#about-container')
-let closeButton = document.querySelector('#close')
 let navMessages = document.querySelector('nav.messages')
 aboutButton.addEventListener('click', () => {
   show(aboutContainer)
   hide(aboutButton)
   hide(navMessages)
 })
-closeButton.addEventListener('click', () => {
+aboutContainer.addEventListener('click', () => {
   hide(aboutContainer)
   show(aboutButton)
   show(navMessages)

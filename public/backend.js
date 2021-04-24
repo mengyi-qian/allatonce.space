@@ -35,6 +35,10 @@ camSelect.addEventListener('change', () => {
     colorSelect.options[0].disabled = false
     colorSelect.options[1].disabled = true
     colorSelect.options[2].disabled = false
+  } else if ( camSelect.options[7].selected ) {
+    colorSelect.options[0].disabled = false
+    colorSelect.options[1].disabled = true
+    colorSelect.options[2].disabled = false
   }
 })
 
@@ -47,6 +51,7 @@ colorSelect.addEventListener('change', () => {
     camSelect.options[4].disabled = false
     camSelect.options[5].disabled = false
     camSelect.options[6].disabled = false
+    camSelect.options[7].disabled = false
   } else if ( colorSelect.options[1].selected ) {
     camSelect.options[0].disabled = true
     camSelect.options[1].disabled = false
@@ -55,6 +60,7 @@ colorSelect.addEventListener('change', () => {
     camSelect.options[4].disabled = true
     camSelect.options[5].disabled = true
     camSelect.options[6].disabled = true
+    camSelect.options[7].disabled = true
   } else if ( colorSelect.options[2].selected ) {
     camSelect.options[0].disabled = false
     camSelect.options[1].disabled = false
@@ -63,5 +69,6 @@ colorSelect.addEventListener('change', () => {
     camSelect.options[4].disabled = false
     camSelect.options[5].disabled = false
     camSelect.options[6].disabled = false
+    camSelect.options[7].disabled = false
   }
 })

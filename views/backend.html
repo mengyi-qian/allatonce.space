@@ -23,7 +23,8 @@
         ["cam_04", "red", "blue"],
         ["cam_05", "red", "blue"],
         ["cam_06", "red", "blue"],
-        ["cam_07", "red", "blue"]
+        ["cam_07", "red", "blue"],
+        ["cam_08", "red", "blue"]
       ]
       
       // set table structure: i = cam, j = color
@@ -34,7 +35,8 @@
         ["cam_04", ["red"], ["blue"]],
         ["cam_05", ["red"], ["blue"]],
         ["cam_06", ["red"], ["blue"]],
-        ["cam_07", ["red"], ["blue"]]
+        ["cam_07", ["red"], ["blue"]],
+        ["cam_08", ["red"], ["blue"]]
       ]
       
       // get all the names for each cam & color
@@ -96,8 +98,8 @@
         cam_03_yellow: "https://www.dropbox.com/request/HXC74F67xvn8cgiQNnzr",
         cam_03_blue:   "https://www.dropbox.com/request/QdRVa6WK7s3ZMop8EXIK",
         
-        cam_04_red:    "https://www.dropbox.com/request/UA62xBZHSl3qeUIwnKZn",
-        cam_04_blue:   "https://www.dropbox.com/request/4vHXasBI1c3LCYzli1pa",
+        cam_04_red:    "https://www.dropbox.com/request/qQsn51pGpzDqO1yBnDTE",
+        cam_04_blue:   "https://www.dropbox.com/request/wamdCRDuIcGTNYxqGHgb",
         
         cam_05_red:    "https://www.dropbox.com/request/BZeXL96f0D9nTswxShb7",
         cam_05_blue:   "https://www.dropbox.com/request/jffm34NUdWqPly3mKWbX",
@@ -106,7 +108,10 @@
         cam_06_blue:   "https://www.dropbox.com/request/VVNW6HAvB7SeqhatJ2i2",
         
         cam_07_red:    "https://www.dropbox.com/request/POtkB7ZEdnSGl1Ig0SoP",
-        cam_07_blue:   "https://www.dropbox.com/request/bppUc7KapIQ5mVPX0C28"
+        cam_07_blue:   "https://www.dropbox.com/request/bppUc7KapIQ5mVPX0C28",
+        
+        cam_08_red:    "https://www.dropbox.com/request/UA62xBZHSl3qeUIwnKZn",
+        cam_08_blue:   "https://www.dropbox.com/request/4vHXasBI1c3LCYzli1pa"
       }
       
       // add a confirm message when clicking the cancel button
@@ -177,7 +182,8 @@
             ["cam_04", ["red"], ["blue"]],
             ["cam_05", ["red"], ["blue"]],
             ["cam_06", ["red"], ["blue"]],
-            ["cam_07", ["red"], ["blue"]]
+            ["cam_07", ["red"], ["blue"]],
+            ["cam_08", ["red"], ["blue"]]
           ]
           
           // get names for each cam & color, write name list to the table
@@ -235,10 +241,11 @@
             <option value="cam_01">cam_01</option>
             <option value="cam_02">cam_02</option>
             <option value="cam_03">cam_03</option>
-            <option value="cam_04">cam_04</option>
-            <option value="cam_05">cam_05</option>
+            <option value="cam_04">cam_04(video)</option>
+            <option value="cam_05">cam_05(video)</option>
             <option value="cam_06">cam_06</option>
             <option value="cam_07">cam_07</option>
+            <option value="cam_08">cam_08</option>
           </select>
           <br><br>
 
@@ -352,7 +359,7 @@
             <td></td>
           </tr>
           <tr>
-            <td>cam_04 (image)</td>
+            <td>cam_04 (video)</td>
             <td><div class="color cam_04 red"></div></td>
             <td></td>
             <td></td>
@@ -396,6 +403,18 @@
           <tr>
             <td></td>
             <td><div class="color cam_07 blue"></div></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>cam_08 (image)</td>
+            <td><div class="color cam_08 red"></div></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><div class="color cam_08 blue"></div></td>
             <td></td>
             <td></td>
           </tr>

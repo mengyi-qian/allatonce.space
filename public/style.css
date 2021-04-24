@@ -154,14 +154,6 @@ a#about {
   padding-bottom: 0px;
 }
 
-#about-container #close {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 40px;
-  cursor: pointer;
-}
-
 ::selection {
   background-color: black;
 }
