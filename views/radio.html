@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ALL AT ONCE RADIO</title>
+    <link id="favicon" rel="icon" href="https://cdn.glitch.com/1e90be27-23ce-48d3-aca1-2acbffb697eb%2Ffavicon.png?v=1619060243566" type="image/png">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/responsive.css">
+    <style>
+      #about-container {
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100); /* mobile */
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+    </style>
+    <script>
+            // for mobile:
+      function windowResize() {
+        // get the viewport height and we multiple it by 1% to get a value for a vh unit
+        let vh = window.innerHeight * 0.01
+        // set the value in the --vh custom property to the root of the document
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
+      }
+      windowResize() 
+      window.onresize = windowResize
+    </script>
+  </head>
+
+  <body>
+    <div id="gif-container">
+      <img src="https://cdn.glitch.com/1e90be27-23ce-48d3-aca1-2acbffb697eb%2Fpk.jpg?v=1619539429285" class="gif">
+    </div>
+    
+    <!--     
+    <div id="video-container">
+      <iframe id="radio" width="320" height="180"
+              src="https://www.youtube.com/embed/live_stream?channel=UCTJFod6xcuM0nnsoYg2SKRQ&autoplay=1&controls=0&showinfo=0&enablejsapi=1&fs=0&loop=1&modestbranding=1&playsinline=1&color=white&rel=0" 
+              frameborder="0" scrolling="no"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" 
+              allowfullscreen>
+      </iframe>
+    </div>
+    -->
+    
+    <div id="about-container">
+      <p>
+        Yale Graphic Design ’21 Pecha Kucha RADIO<br>LIVE stream available on Wednesday, April 28 8:00PM
+      </p>
+      <ul>
+        <li>Herdimas Anggara</li>
+        <li>Milo Bonacci</li>
+        <li>Bianca Ibarlucea</li>
+        <li>Furqan Jawed</li>
+        <li>Harin Jung</li>
+        <li>Jun Jung</li>
+        <li>Minhwan Kim</li>
+        <li>Nick Massarelli</li>
+        <li>Anezka Minarikova</li>
+        <li>Luiza Dale</li>
+        <li>Ana Lobo</li>
+        <li>Mengyi Qian</li>
+        <li>Anna Sagström</li>
+        <li>Mianwei Wang</li>
+      </ul> 
+    </div>
+  </body>
+
+</html>

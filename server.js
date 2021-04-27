@@ -18,6 +18,9 @@ app.get('/atrium', function(req, res) {
 app.get('/logs', function(req, res) {
   res.sendFile(__dirname + '/views/logs.html')
 })
+app.get('/radio', function(req, res) {
+  res.sendFile(__dirname + '/views/radio.html')
+})
 
 //launch the server
 http.listen(port, ()=>{
