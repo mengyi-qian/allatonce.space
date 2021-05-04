@@ -21,6 +21,9 @@ app.get('/logs', function(req, res) {
 app.get('/radio', function(req, res) {
   res.sendFile(__dirname + '/views/radio.html')
 })
+app.get('/live', function(req, res) {
+  res.sendFile(__dirname + '/views/live.html')
+})
 
 //launch the server
 http.listen(port, ()=>{

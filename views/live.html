@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="/responsive.css">
     <link rel="stylesheet" href="/mobile.css">
     <script src="/script.js" defer></script>
-<!--     <script src="https://all-at-once.glitch.me/socket.io/socket.io.js"></script> -->
+    <script src="https://all-at-once.glitch.me/socket.io/socket.io.js"></script>
     <script>
-      // var socket = io('https://all-at-once.glitch.me/')
+      var socket = io('https://all-at-once.glitch.me/')
       
       window.onload = async () => {
         // initialize iframe width & height
@@ -38,7 +38,7 @@
           vw = window.innerWidth
           vh = window.innerHeight
           if ( vh > vw * 9 / 16 ) {
-            // console.log("narrow")
+            console.log("narrow")
             h = vh
             w = vh * 16 / 9
             let iframe = document.querySelector('#iframe-container')
@@ -48,7 +48,7 @@
               iframe.style.top = 0
             }
           } else {
-            // console.log("wide")
+            console.log("wide")
             w = vw
             h = vw * 9 / 16
             let iframe = document.querySelector('#iframe-container')
@@ -64,20 +64,21 @@
         
         // youtube livestream embeded links
         const videoSources = [
-          ["https://www.youtube.com/embed/7k1jyskv47Y?", "16800"], // cam 01
-          ["https://www.youtube.com/embed/4C3aJGx6V4k?", "20160"], // cam 02
-          ["https://www.youtube.com/embed/1cHS16BtQ9k?", "2220"], // cam 04
-          ["https://www.youtube.com/embed/K_quepRng9E?", "10080"], // cam 05
-          ["https://www.youtube.com/embed/5UXqo0cUypw?", "16800"] // cam 07
+          "https://www.youtube.com/embed/live_stream?channel=UCHVaqUStiwREmM1jzX8iFiw", // cam 01
+          "https://www.youtube.com/embed/live_stream?channel=UCqpl6x4kNKU1UYUK9_TJslw", // cam 02
+          "https://www.youtube.com/embed/live_stream?channel=UCTSg1ZoG2TIl5Skoca0S6tQ", // cam 03
+          "https://www.youtube.com/embed/live_stream?channel=UCl0UB1O7Ea90Eyk6rbUkE5A", // cam 04
+          "https://www.youtube.com/embed/live_stream?channel=UCbqBpuqlgm0NmQi4iyIZREg", // cam 05
+          "https://www.youtube.com/embed/live_stream?channel=UC58BB2YXu28MiC4Iv6cVT1g", // cam 06
+          "https://www.youtube.com/embed/live_stream?channel=UCpp0ClyiNMe-Uvd9z8tXntg", // cam 07
+          "https://www.youtube.com/embed/live_stream?channel=UC0s0U-acp0sNY_CNfIHqkHQ" // cam 08
         ]
         
         // video iframe template
         const videoTemplate = (videoId, source) => {
-          let time = Math.floor(Math.random() * source[1])
-          console.log(time)
           let videoTemplate = `
             <iframe id=${videoId}
-                  src="${source[0]}&autoplay=1&controls=0&mute=1&showinfo=0&enablejsapi=1&fs=0&loop=1&modestbranding=1&playsinline=1&color=white&rel=0&start=${time}" 
+                  src="${source}&autoplay=1&controls=0&mute=1&showinfo=0&enablejsapi=1&fs=0&loop=1&modestbranding=1&playsinline=1&color=white&rel=0" 
                   frameborder="0" scrolling="no"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowfullscreen>
@@ -90,21 +91,21 @@
         const resizedTemplate = (videoId, source, w, h) => {
           let resizedTemplate = `
             <div id="iframe-container" style="width:${w}px;height:${h}px;">
-              ${videoTemplate(videoId, source)}
+              ${videoTemplate(videoId,source)}
             </div>
           `
           return resizedTemplate
         }
         
-        // // mobile: list video iframe template & caption marquee
-        // const marqueeTemplate = (videoId, source) => {
-        //   let caption = "ALL AT ONCE"
-        //   let marqueeTemplate = `
-        //     <marquee class="mobile-caption" scrollamount="2" scrolldelay = "0">${caption}</marquee>
-        //     ${videoTemplate(videoId,source)}
-        //   `
-        //   return marqueeTemplate
-        // }
+        // mobile: list video iframe template & caption marquee
+        const marqueeTemplate = (videoId, source) => {
+          let caption = "ALL AT ONCE"
+          let marqueeTemplate = `
+            <marquee class="mobile-caption" scrollamount="2" scrolldelay = "0">${caption}</marquee>
+            ${videoTemplate(videoId,source)}
+          `
+          return marqueeTemplate
+        }
         
         
         // get all the navs and video container
@@ -120,20 +121,20 @@
           }
           videoContainer.innerHTML = videoTemplateMobile
           
-          // // set marquee captions
-          // socket.on('set caption', (captions) => {
-          //   let videos = document.querySelectorAll('#video-container iframe')
-          //   for (let video of videos) {
-          //     let index = video.id.slice(-1) - 1
-          //     let caption = "No work is streaming in this camera"
-          //     if ( captions[index] !== "" ) {
-          //       caption = "Now streaming: " + captions[index]
-          //     }
-          //     let marquee = video.previousElementSibling
-          //     marquee.innerHTML = "ALL AT ONCE: " + caption
-          //     video.setAttribute("alt", caption)
-          //   }
-          // })
+          // set marquee captions
+          socket.on('set caption', (captions) => {
+            let videos = document.querySelectorAll('#video-container iframe')
+            for (let video of videos) {
+              let index = video.id.slice(-1) - 1
+              let caption = "No work is streaming in this camera"
+              if ( captions[index] !== "" ) {
+                caption = "Now streaming: " + captions[index]
+              }
+              let marquee = video.previousElementSibling
+              marquee.innerHTML = "ALL AT ONCE: " + caption
+              video.setAttribute("alt", caption)
+            }
+          })
         }
         // desktop:
         else {
@@ -149,7 +150,7 @@
               if (cameraNav.checked) {
                 cameraNo = cameraNav.value
                 n = cameraNo.slice(-1) - 1
-                // socket.emit('camera switch', cameraNo)
+                socket.emit('camera switch', cameraNo)
                 videoContainer.innerHTML = resizedTemplate("activeCamera", videoSources[n], w, h)
                 iframeResize()
               }
@@ -157,29 +158,29 @@
           })
           window.onresize = iframeResize
 
-//           // set captions and alt text
-//           socket.on('set caption', (captions) => {
-//             let caption = "No work is streaming in this camera"
-//             if ( captions[n] !== "" ) {
-//               caption = "Now streaming: " + captions[n]
-//             }
-//             document.querySelector('#caption').setAttribute("title", caption)
-//             document.querySelector('#caption').setAttribute("alt", caption)
+          // set captions and alt text
+          socket.on('set caption', (captions) => {
+            let caption = "No work is streaming in this camera"
+            if ( captions[n] !== "" ) {
+              caption = "Now streaming: " + captions[n]
+            }
+            document.querySelector('#caption').setAttribute("title", caption)
+            document.querySelector('#caption').setAttribute("alt", caption)
             
-//           })
+          })
           
-          // // set currently streaming messages
-          // socket.on('update streaming message', (live) => {          
-          //   let output = 'ALL AT ONCE: '
-          //   if ( live.length > 0 ) {
-          //     for (let item of live) {
-          //       output += item.message
-          //     }
-          //   } else {
-          //     output += 'No work is streaming currently. Please come back later.'
-          //   }
-          //   document.querySelector('#message-list').innerHTML = output          
-          // })
+          // set currently streaming messages
+          socket.on('update streaming message', (live) => {          
+            let output = 'ALL AT ONCE: '
+            if ( live.length > 0 ) {
+              for (let item of live) {
+                output += item.message
+              }
+            } else {
+              output += 'No work is streaming currently. Please come back later.'
+            }
+            document.querySelector('#message-list').innerHTML = output          
+          })
         }
 
       }
@@ -201,15 +202,18 @@
       <label for="cam_04_nav"> cam_04 </label>
       <input type="radio" id="cam_05_nav" name="camera" value="cam_05">
       <label for="cam_05_nav"> cam_05 </label>
+      <input type="radio" id="cam_06_nav" name="camera" value="cam_06">
+      <label for="cam_06_nav"> cam_06 </label>
+      <input type="radio" id="cam_07_nav" name="camera" value="cam_07">
+      <label for="cam_07_nav"> cam_07 </label>
+      <input type="radio" id="cam_08_nav" name="camera" value="cam_08">
+      <label for="cam_08_nav"> cam_08 </label>
     </nav>
-
-    <!-- 
     <nav class="messages">
       <marquee direction="left" behavior="scroll" scrollamount="4" scrolldelay = "0">
         <ul id="message-list"></ul>
       </marquee>
-    </nav> 
-    -->
+    </nav>
     
     
     <a id="about">About</a>
@@ -218,7 +222,7 @@
       <p>On view April 22–28<br>24-hour livestreams here at allatonce.space &<br> Green Hall Gallery during regular hours*</p>
       <p>All at once—looking back, tripping forward, standing still. All at once—plugged in, displayed, replayed, looped. All at once—planes, edges corners. All at once—outwards, inwards, downwards, backwards. All at once—far away, close by, in motion. All at once—displaced, misplaced, replaced. All at once—everything, nothing, fleeting. All at once.
 </p>
-      <p><i>All at Once</i> brings together the work of this year’s graphic design MFA graduating class through a unique merging of the physical and the virtual of our current environment. From April 22 to April 28, a continuously evolving live feed of work was broadcasted 24/7 at allatonce.space—while the physical show was on view in person at Green Hall Gallery.</p>
+      <p><i>All at Once</i> brings together the work of this year’s graphic design MFA graduating class through a unique merging of the physical and the virtual of our current environment. From April 22 to April 28, a continuously evolving live feed of work will be broadcasted 24/7 at allatonce.space—while the physical show will be on view in person at Green Hall Gallery during regular hours.*</p>
       <p></p>
       <p>2021 Graduating Class:</p>
       <ul>
@@ -242,11 +246,9 @@
         <br>
         Special thanks to Yeju Choi, Sarah Stevens-Morling, Edgar Serrano, and Erin Sparling, for all of your help and support in making this exhibition possible.
       </p>
-      <!-- 
       <p id="note">
         *The gallery is only open to current members of the SoA community because of Yale University's <a href="https://covid19.yale.edu/yale-statistics">orange covid alert status</a>. Sign up for a time slot <a href="https://docs.google.com/spreadsheets/d/1Wkh7fhE0g98kTwpbdvf65rNk_Nn0bw_FGz9iyOKX4QA/edit#gid=0">here</a>.
-      </p> 
-      -->
+      </p>
     </div>
     
   </body>
