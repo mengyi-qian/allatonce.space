@@ -5,19 +5,31 @@ function show(element) {
   element.style.display = "block"
 }
 
+// // toggle about button
+// let aboutButton = document.querySelector('#about')
+// let aboutContainer = document.querySelector('#about-container')
+// let navMessages = document.querySelector('nav.messages')
+// aboutButton.addEventListener('click', () => {
+//   show(aboutContainer)
+//   hide(aboutButton)
+//   hide(navMessages)
+// })
+// aboutContainer.addEventListener('click', () => {
+//   hide(aboutContainer)
+//   show(aboutButton)
+//   show(navMessages)
+// })
+
 // toggle about button
 let aboutButton = document.querySelector('#about')
 let aboutContainer = document.querySelector('#about-container')
-let navMessages = document.querySelector('nav.messages')
 aboutButton.addEventListener('click', () => {
   show(aboutContainer)
   hide(aboutButton)
-  hide(navMessages)
 })
 aboutContainer.addEventListener('click', () => {
   hide(aboutContainer)
   show(aboutButton)
-  show(navMessages)
 })
 
 
