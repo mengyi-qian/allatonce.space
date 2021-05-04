@@ -74,7 +74,7 @@
         // video iframe template
         const videoTemplate = (videoId, source) => {
           let time = Math.floor(Math.random() * source[1])
-          console.log(time)
+          // console.log(time)
           let videoTemplate = `
             <iframe id=${videoId}
                   src="${source[0]}&autoplay=1&controls=0&mute=1&showinfo=0&enablejsapi=1&fs=0&loop=1&modestbranding=1&playsinline=1&color=white&rel=0&start=${time}" 
